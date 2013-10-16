@@ -1,0 +1,3 @@
+# Ignore any ADMB distribution and/or installation
+admb-*.zip
+admb
