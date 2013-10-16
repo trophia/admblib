@@ -4,7 +4,7 @@ This is a modest little library of functions and macros that are useful when usi
 
 Don't expect well documented code. If others find this useful, and there is some demand, then that may change.
 
-Some of the function here are implemented elsewhere (e.g statlib that comes with ADMB) but they may be reimplemented here to math naming and/or calling conventions.
+Some of the function here are implemented elsewhere (e.g statlib that comes with ADMB) but they may be reimplemented here to meet naming and/or calling conventions.
 
 Nokome Bentley
 
