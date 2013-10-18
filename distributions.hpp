@@ -8,6 +8,9 @@
 
 #include <cmath>
 
+#include "traits.hpp"
+#include "containers.hpp"
+
 namespace AdmbLib {
 
 /*
@@ -61,18 +64,139 @@ dvariable normal_integral(const To& from,const From& to,const Mean& mean,const S
 	return integral;
 }
 
-dvariable normal_nll(const dvariable& x, const double& mu, const double& sigma){
-	return log(sigma)+halfLog2Pi+square(x-mu)/(2*square(sigma));
+namespace Implementation {
+
+	dvariable normal_nll_base(
+		const dvariable& x, 
+		const dvariable& mu, 
+		const dvariable& sigma
+	){
+		return log(sigma)+halfLog2Pi+square(x-mu)/(2*square(sigma));
+	}
+
+	dvariable lognormal_nll_base(
+		const dvariable& x, 
+		const dvariable& mu, 
+		const dvariable& sigma
+	){
+		return log(x)+log(sigma)+halfLog2Pi+square(log(x)-mu)/(2*square(sigma));
+	}
+
+	dvariable lognormal_nll_mean_cv_base(
+		const dvariable& x,
+		const dvariable& mean,
+		const dvariable& cv
+	){
+		dvariable mean2 = square(mean);
+		dvariable var = square(mean*cv);
+		dvariable mu = log(mean2/sqrt(var+mean2));
+		dvariable sigma = sqrt(log(1+var/mean2));
+		return lognormal_nll_base(x,mu,sigma);
+	}
+
+	template<
+		class X,
+		class Mu,
+		class Sigma
+	>
+	dvariable normal_nll(
+		const std::false_type&, const X& x,
+		const std::false_type&, const Mu& mu,
+		const std::false_type&, const Sigma& sigma
+	){
+		return normal_nll_base(x,mu,sigma);
+	}
+
+	template<
+		class X,
+		class Mu,
+		class Sigma
+	>
+	dvariable normal_nll(
+		const std::true_type&, const X& x,
+		const std::false_type&, const Mu& mu,
+		const std::false_type&, const Sigma& sigma
+	){
+		return sum_items(x,normal_nll_base,mu,sigma);
+	}
+
+	template<
+		class X,
+		class Mu,
+		class Sigma
+	>
+	dvariable normal_nll(
+		const std::true_type&, const X& x,
+		const std::true_type&, const Mu& mu,
+		const std::false_type&, const Sigma& sigma
+	){
+		return sum_pairs(x,mu,normal_nll_base,sigma);
+	}
+
+	template<
+		class X,
+		class Mean,
+		class Cv
+	>
+	dvariable lognormal_nll_mean_cv(
+		const std::false_type&, const X& x,
+		const std::false_type&, const Mean& mean,
+		const std::false_type&, const Cv& cv
+	){
+		return lognormal_nll_mean_cv_base(x,mean,cv);
+	}
+
+	template<
+		class X,
+		class Mean,
+		class Cv
+	>
+	dvariable lognormal_nll_mean_cv(
+		const std::true_type&, const X& x,
+		const std::false_type&, const Mean& mean,
+		const std::false_type&, const Cv& cv
+	){
+		return sum_items(x,lognormal_nll_mean_cv_base,mean,cv);
+	}
+
+	template<
+		class X,
+		class Mean,
+		class Cv
+	>
+	dvariable lognormal_nll_mean_cv(
+		const std::true_type&, const X& x,
+		const std::true_type&, const Mean& mean,
+		const std::false_type&, const Cv& cv
+	){
+		return sum_pairs(x,mean,lognormal_nll_mean_cv_base,cv);
+	}
 }
 
-dvariable lognormal_nll(const dvariable& x, const double& mu, const double& sigma){
-	return log(x)+log(sigma)+halfLog2Pi+square(log(x)-mu)/(2*square(sigma));
+template<
+	class X,
+	class Mean,
+	class Cv
+>
+dvariable normal_nll(const X& x, const Mean& mean, const Cv& cv){
+	return Implementation::normal_nll(
+		IsContainer<X>(), x,
+		IsContainer<Mean>(), mean,
+		IsContainer<Cv>(), cv
+	);
 }
 
-dvariable lognormal_nll_mean_cv(const dvariable& x, const double& mean, const double& cv){
-	double mean2 = square(mean);
-	double var = square(mean*cv);
-	return lognormal_nll(x,log(mean2/sqrt(var+mean2)),sqrt(log(1+var/mean2)));
+template<
+	class X,
+	class Mean,
+	class Cv
+>
+dvariable lognormal_nll_mean_cv(const X& x, const Mean& mean, const Cv& cv){
+	return Implementation::lognormal_nll_mean_cv(
+		IsContainer<X>(), x,
+		IsContainer<Mean>(), mean,
+		IsContainer<Cv>(), cv
+	);
 }
 
 }
