@@ -6,9 +6,9 @@ This is a modest little library of C++ classes, functions and macros for use wit
 
 Beware, although small, `admblib` is unsociable, intoverted and perhaps even misanthropic.
 It exists mainly for the author's own use and reflects his personal tastes in C++ coding style and ADMB usage patterns. 
-Don't expect well documented code, tutorials or getting started guides or a comprehensive set of functions in a particular domain.
+Don't expect well documented code, tutorials, getting started guides or a comprehensive set of functions in a particular domain.
 `admblib` is likely to have irregular and adhoc development.
-Despite these failings, other people might just find bits of `admblib` useful, so its been flund up here on the interweb.
+Despite these failings, other people might just find bits of `admblib` useful, so its been flung up here on the interweb.
 If you do use `admblib`, [let me know](mailto:nokome.bentley@trophia.com?subject=admblib...&body=...is%20a%20complete%20waste%20of%20time%20%2F%20quite%20useful%20[delete%20as%20appropriate]), and I might be able to make it a little less reticent and a little easier to work with.
 
 Licensed under a [Creative Commons Attribution-ShareAlike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/deed.en_GB)
