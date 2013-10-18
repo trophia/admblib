@@ -2,7 +2,7 @@
 
 This is a modest little library of classes, functions and macros for use with [ADMB)](http://admb-project.org/).
 
-`admblib` uses featues of the [C++11 standard](http://en.wikipedia.org/wiki/C++11) like the oh-so-convienient-why-couldn't-we-have-had-this-ten-years-ago [type inference](http://en.wikipedia.org/wiki/C++11#Type_inference) and the mind-bending-but-uber-useful [variadic templates](http://en.wikipedia.org/wiki/Variadic_templates). So, to use it you'll need a modern compiler that supports those features. `admblib` has been develped using `gcc 4.8.1`.
+`admblib` uses features of the [C++11 standard](http://en.wikipedia.org/wiki/C++11) like the oh-so-convienient-why-couldn't-we-have-had-this-ten-years-ago [type inference](http://en.wikipedia.org/wiki/C++11#Type_inference) and the mind-bending-but-uber-useful [variadic templates](http://en.wikipedia.org/wiki/Variadic_templates). So, to use it you'll need a modern compiler that supports those features. `admblib` has been develped using `gcc 4.8.1`.
 
 Beware, although small, `admblib` is unsociable, intoverted and perhaps even misanthropic.
 It exists mainly for the author's own use and reflects his personal tastes in C++ coding style and ADMB usage patterns. 
